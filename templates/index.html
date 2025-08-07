@@ -1,35 +1,26 @@
-<!-- templates/index.html -->
 <!DOCTYPE html>
 <html>
 <head>
-  <title>AI Bot</title>
+  <title>GPT-2 Text Generator</title>
 </head>
 <body>
-  <h1>Talk to the AI</h1>
-  <form id="chat-form">
-    <input type="text" id="user-input" placeholder="Say something..." required>
-    <button type="submit">Send</button>
-  </form>
-  <div id="response"></div>
+  <h1>GPT-2 Text Generator</h1>
+  <textarea id="prompt" placeholder="Enter prompt here..." rows="4" cols="50"></textarea><br>
+  <button onclick="generate()">Generate</button>
+  <p><strong>Output:</strong></p>
+  <div id="output" style="white-space: pre-wrap;"></div>
 
   <script>
-    const form = document.getElementById('chat-form');
-    const input = document.getElementById('user-input');
-    const responseBox = document.getElementById('response');
-
-    form.onsubmit = async (e) => {
-      e.preventDefault();
-      const userText = input.value;
-      responseBox.innerHTML = "Thinking...";
-      const res = await fetch("/chat", {
+    async function generate() {
+      const prompt = document.getElementById("prompt").value;
+      const response = await fetch("/generate", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: userText })
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ prompt })
       });
-      const data = await res.json();
-      responseBox.innerHTML = "<b>AI:</b> " + data.reply;
-      input.value = "";
-    };
+      const data = await response.json();
+      document.getElementById("output").innerText = data.result;
+    }
   </script>
 </body>
 </html>
