@@ -8,7 +8,7 @@ import zipfile
 app = Flask(__name__)
 
 MODEL_PATH = "model"
-MODEL_URL = "https://www.dropbox.com/s/your_model.zip?dl=1"  # Replace with your direct download link
+MODEL_URL = "https://www.dropbox.com/scl/fi/0tyljfftdi46rlfwsb1ia/gpt2-finetuned.zip?rlkey=zx5nwk943nwp7i9pxsmo8b5s3&st=7bg7d0nn&dl=1"  # Replace with your direct download link
 
 def download_model():
     if not os.path.exists(MODEL_PATH):
