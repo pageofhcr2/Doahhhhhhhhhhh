@@ -1,14 +1,14 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from transformers import GPT2LMHeadModel, GPT2Tokenizer
 import torch
 import os
 import requests
 import zipfile
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder="templates")
 
 MODEL_PATH = "model"
-MODEL_URL = "https://www.dropbox.com/scl/fi/0tyljfftdi46rlfwsb1ia/gpt2-finetuned.zip?rlkey=zx5nwk943nwp7i9pxsmo8b5s3&st=7bg7d0nn&dl=1"  # Replace with your direct download link
+MODEL_URL = "https://www.dropbox.com/scl/fi/0tyljfftdi46rlfwsb1ia/gpt2-finetuned.zip?rlkey=zx5nwk943nwp7i9pxsmo8b5s3&st=7bg7d0nn&dl=1"
 
 def download_model():
     if not os.path.exists(MODEL_PATH):
@@ -31,7 +31,7 @@ model.eval()
 
 @app.route("/", methods=["GET"])
 def home():
-    return "GPT-2 Web Server Running."
+    return render_template("index.html")
 
 @app.route("/generate", methods=["POST"])
 def generate():
