@@ -1,9 +1,35 @@
+<!-- templates/index.html -->
 <!DOCTYPE html>
 <html>
 <head>
-  <title>GPT-2 Flask App</title>
+  <title>AI Bot</title>
 </head>
 <body>
-  <h1>Hello from GPT-2 Flask!</h1>
+  <h1>Talk to the AI</h1>
+  <form id="chat-form">
+    <input type="text" id="user-input" placeholder="Say something..." required>
+    <button type="submit">Send</button>
+  </form>
+  <div id="response"></div>
+
+  <script>
+    const form = document.getElementById('chat-form');
+    const input = document.getElementById('user-input');
+    const responseBox = document.getElementById('response');
+
+    form.onsubmit = async (e) => {
+      e.preventDefault();
+      const userText = input.value;
+      responseBox.innerHTML = "Thinking...";
+      const res = await fetch("/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: userText })
+      });
+      const data = await res.json();
+      responseBox.innerHTML = "<b>AI:</b> " + data.reply;
+      input.value = "";
+    };
+  </script>
 </body>
 </html>
